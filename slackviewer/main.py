@@ -27,6 +27,7 @@ def configure_app(app, archive, channels, no_sidebar, no_external_references, de
     top.dm_users = reader.compile_dm_users()
     top.mpims = reader.compile_mpim_messages()
     top.mpim_users = reader.compile_mpim_users()
+    top.root_dir = path;
 
 
 @click.command()

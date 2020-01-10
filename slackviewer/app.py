@@ -1,5 +1,5 @@
 import flask
-
+import os
 
 app = flask.Flask(
     __name__,
@@ -7,6 +7,13 @@ app = flask.Flask(
     static_folder="static"
 )
 
+@app.route('/_attachments/<path:path>', methods=['GET'])
+def attachments(path):
+    src = os.path.join(flask._app_ctx_stack.root_dir, "_attachments/").replace('\\','/')
+    try:
+        return flask.send_from_directory(src, filename=path, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
 
 @app.route("/channel/<name>/")
 def channel_name(name):

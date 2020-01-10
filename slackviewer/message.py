@@ -4,6 +4,9 @@ import datetime
 import logging
 import emoji
 
+def _convert(url):
+    return url.replace("https://files.slack.com/","/_attachments/")
+
 class Message(object):
 
     _DEFAULT_USER_ICON_SIZE = 72
@@ -161,7 +164,7 @@ class LinkAttachment(object):
                             thumb_key, self._raw.get("title"))
             if thumb_key in self._raw:
                 return {
-                    "src": self._raw[thumb_key],
+                    "src": _convert(self._raw[thumb_key]),
                     "width": self._raw.get(thumb_key + "_w"),
                     "height": self._raw.get(thumb_key + "_h"),
                 }
@@ -177,7 +180,7 @@ class LinkAttachment(object):
         if "from_url" in self._raw:
             return self._raw["from_url"]
         else:
-            return self._raw.get("url_private")
+            return _convert(self._raw.get("url_private"))
 
     @property
     def fields(self):
